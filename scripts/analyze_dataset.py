@@ -41,6 +41,35 @@ filtered_data.dropna(inplace=True)
 # Verificar el resumen estadístico de las columnas numéricas
 print(filtered_data.describe())
 
+# Crear una figura para la matriz de correlación
+plt.figure(figsize=(10, 8))
+sns.heatmap(filtered_data.corr(), annot=True, cmap='coolwarm', center=0)
+plt.title('Matriz de Correlación')
+plt.tight_layout()
+plt.show()
+
+# Crear boxplots
+plt.figure(figsize=(12, 6))
+filtered_data.boxplot(column=numerical_columns)
+plt.title('Distribución y Outliers por Variable')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Graficar scatter plots relevantes
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# ABV vs OG
+sns.scatterplot(data=filtered_data, x='og', y='abv', ax=axes[0])
+axes[0].set_title('ABV vs Densidad Original')
+
+# IBU vs Color
+sns.scatterplot(data=filtered_data, x='color', y='ibu', ax=axes[1])
+axes[1].set_title('IBU vs Color')
+
+plt.tight_layout()
+plt.show()
+
 # Calcular límites automáticos para los ejes
 limits = {
     column: (filtered_data[column].min(), filtered_data[column].max())
@@ -72,3 +101,4 @@ if not filtered_data.empty:
     plt.show()
 else:
     print("No hay datos numéricos válidos para graficar.")
+
